@@ -18,8 +18,8 @@ services:
       - N8N_HOST=0.0.0.0
       - N8N_PORT=5678
       - N8N_PROTOCOL=http
-      - WEBHOOK_URL=http://localhost:5678
-      - N8N_EDITOR_BASE_URL=http://localhost:5678
+      - WEBHOOK_URL=https://aroha-automation.onrender.com
+      - N8N_EDITOR_BASE_URL=https://aroha-automation.onrender.com
       # Playwright environment variables
       - PLAYWRIGHT_BROWSERS_PATH=/root/.cache/ms-playwright
     restart: unless-stopped
