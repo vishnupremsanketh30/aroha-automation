@@ -11,20 +11,19 @@ services:
       - n8n_data:/root/.n8n
       # Optional: Mount the script directory for development
       - ./aroha-n8n.js:/app/aroha-n8n.js
-      # Mount the n8n configuration file
-      - ./n8n-config.json:/root/.n8n/config.json
     environment:
+      # Basic authentication
       - N8N_BASIC_AUTH_ACTIVE=true
       - N8N_BASIC_AUTH_USER=admin
       - N8N_BASIC_AUTH_PASSWORD=password
-      # Critical: Set the actual domain name for OAuth callbacks
+      # Network configuration - KEY CHANGE: Use domain name for N8N_HOST
       - N8N_HOST=aroha-automation.onrender.com
       - N8N_PORT=5678
       - N8N_PROTOCOL=https
+      - N8N_LISTEN_ADDRESS=0.0.0.0
+      # URLs for webhooks and editor
       - WEBHOOK_URL=https://aroha-automation.onrender.com
       - N8N_EDITOR_BASE_URL=https://aroha-automation.onrender.com
-      # Additional configuration for proper OAuth handling
-      - N8N_PUBLIC_URL=https://aroha-automation.onrender.com
       # Playwright environment variables
       - PLAYWRIGHT_BROWSERS_PATH=/root/.cache/ms-playwright
     restart: unless-stopped

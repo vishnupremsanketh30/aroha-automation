@@ -71,9 +71,8 @@ WORKDIR /app
 # Create n8n data directory for persistence
 RUN mkdir -p /root/.n8n
 
-# Copy the aroha-n8n.js script and n8n configuration
+# Copy the aroha-n8n.js script
 COPY aroha-n8n.js /app/aroha-n8n.js
-COPY n8n-config.json /root/.n8n/config.json
 
 # Install playwright in the app directory (for the script)
 RUN cd /app && npm init -y && npm install playwright
@@ -81,12 +80,12 @@ RUN cd /app && npm init -y && npm install playwright
 # Set proper permissions
 RUN chmod +x /app/aroha-n8n.js
 
-# Create a startup script with proper configuration
+# Create a simple startup script
 RUN echo '#!/bin/bash\n\
-    echo "Starting N8N with domain: $N8N_HOST"\n\
-    echo "Public URL: $N8N_PUBLIC_URL"\n\
-    # Set N8N to listen on all interfaces but use correct domain for URLs\n\
-    export N8N_LISTEN_ADDRESS=0.0.0.0\n\
+    echo "Starting N8N..."\n\
+    echo "N8N_HOST: $N8N_HOST"\n\
+    echo "N8N_PROTOCOL: $N8N_PROTOCOL"\n\
+    echo "N8N_EDITOR_BASE_URL: $N8N_EDITOR_BASE_URL"\n\
     exec n8n start' > /app/start.sh && chmod +x /app/start.sh
 
 # Expose N8N port
