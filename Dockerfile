@@ -56,8 +56,11 @@ RUN npx playwright install --with-deps
 # Set Playwright browsers path environment variable
 ENV PLAYWRIGHT_BROWSERS_PATH=/root/.cache/ms-playwright
 
-# Set N8N data directory
+# Set N8N data directory and public URL
 ENV N8N_USER_FOLDER=/root/.n8n
+ENV N8N_PUBLIC_URL=https://aroha-automation.onrender.com
+ENV N8N_PROTOCOL=https
+ENV N8N_FORCE_SSL=true
 
 # Install n8n globally
 RUN npm install -g n8n@${N8N_VERSION}
@@ -80,10 +83,11 @@ RUN chmod +x /app/aroha-n8n.js
 
 # Create a startup script with proper configuration
 RUN echo '#!/bin/bash\n\
-    echo "Starting N8N..."\n\
-    # Ensure config file permissions are correct\n\
-    chmod 600 /root/.n8n/config.json 2>/dev/null || true\n\
-    exec n8n start --file=/root/.n8n/config.json' > /app/start.sh && chmod +x /app/start.sh
+    echo "Starting N8N with domain: $N8N_HOST"\n\
+    echo "Public URL: $N8N_PUBLIC_URL"\n\
+    # Set N8N to listen on all interfaces but use correct domain for URLs\n\
+    export N8N_LISTEN_ADDRESS=0.0.0.0\n\
+    exec n8n start' > /app/start.sh && chmod +x /app/start.sh
 
 # Expose N8N port
 EXPOSE 5678

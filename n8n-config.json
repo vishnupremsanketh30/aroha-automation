@@ -1,13 +1,10 @@
 {
-  "endpoints": {
-    "rest": "https://aroha-automation.onrender.com/rest",
-    "webhook": "https://aroha-automation.onrender.com/webhook",
-    "webhookTest": "https://aroha-automation.onrender.com/webhook-test"
-  },
-  "host": "0.0.0.0",
+  "host": "aroha-automation.onrender.com",
   "port": 5678,
   "protocol": "https",
   "editorBaseUrl": "https://aroha-automation.onrender.com",
+  "publicUrl": "https://aroha-automation.onrender.com",
+  "listenAddress": "0.0.0.0",
   "basicAuth": {
     "active": true,
     "user": "admin",
