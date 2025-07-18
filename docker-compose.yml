@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  aroha-n8n:
+    build: .
+    container_name: aroha-n8n-container
+    ports:
+      - "5678:5678"
+    volumes:
+      # Persistent volume for n8n data
+      - n8n_data:/root/.n8n
+      # Optional: Mount the script directory for development
+      - ./aroha-n8n.js:/app/aroha-n8n.js
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=password
+      - N8N_HOST=0.0.0.0
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - WEBHOOK_URL=http://localhost:5678
+      - N8N_EDITOR_BASE_URL=http://localhost:5678
+      # Playwright environment variables
+      - PLAYWRIGHT_BROWSERS_PATH=/root/.cache/ms-playwright
+    restart: unless-stopped
+    networks:
+      - aroha-network
+
+volumes:
+  n8n_data:
+    driver: local
+
+networks:
+  aroha-network:
+    driver: bridge
